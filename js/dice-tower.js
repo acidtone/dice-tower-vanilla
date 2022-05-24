@@ -2,6 +2,7 @@
 const allowedFaces = [2,4,6,8,10,12,16,20,100];
 
 const drop = (hand) => {
+  // This function only supports args that are integers, strings and arrays
   if (!Number.isInteger(hand) && !Array.isArray(hand) && typeof hand !== 'string') return null;
 
   // integer -> simple die
@@ -53,6 +54,7 @@ const drop = (hand) => {
       // good isohedral
       return (Math.floor(Math.random() * die)) + 1      
     })
+    console.log(resultDetails);
 
     // return sum
     return resultDetails.reduce((prevValue, currValue) => {
