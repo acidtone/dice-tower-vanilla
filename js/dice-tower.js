@@ -1,6 +1,8 @@
 // sample isohedrals
 const allowedFaces = [2,4,6,8,10,12,16,20,100];
 
+// TODO: Add support for verbose results and `return` an object instead of an integer.
+
 const drop = (hand) => {
   // This function only supports args that are integers, strings and arrays
   if (!Number.isInteger(hand) && !Array.isArray(hand) && typeof hand !== 'string') return null;
@@ -8,6 +10,7 @@ const drop = (hand) => {
   // integer -> simple die
   if (Number.isInteger(hand)) {
     // bad isoheral (ex. 5-sided die)
+    // TODO: Move duplicate code to `isIsohedral()` function.
     if (!allowedFaces.includes(hand)) return null;
 
     // good isohedral
@@ -23,6 +26,7 @@ const drop = (hand) => {
     if (!allowedFaces.includes(parseInt(notationMatch[2]))) return null;
 
     // 'd6' -> roll one die
+    // TODO: Move duplicate code to a `randDieFace(faces)` when `faces` is an integer.
     if (!notationMatch[1]) return Math.floor(Math.random() * notationMatch[2]) + 1;
     
     // roll multiple dice of the same type
@@ -60,6 +64,9 @@ const drop = (hand) => {
     return resultDetails.reduce((prevValue, currValue) => {
       return prevValue + currValue;
     })
+
+    // TODO: Add support for an array of integers or rpg strings!
+
   }
 
   return "uh oh"
