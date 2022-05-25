@@ -8,6 +8,8 @@ const isIsohedral = (faces) => {
   return allowedFaces.includes(parseInt(faces))
 }
 
+// 
+
 // TODO: Add support for verbose results and `return` an object instead of an integer.
 
 const drop = (hand) => {
@@ -17,7 +19,6 @@ const drop = (hand) => {
   // integer -> simple die
   if (Number.isInteger(hand)) {
     // bad isoheral (ex. 5-sided die)
-    // TODO: Move duplicate code to `isIsohedral()` function.
     if (!isIsohedral(hand)) return null;
 
     // good isohedral
