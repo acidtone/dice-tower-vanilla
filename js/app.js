@@ -1,16 +1,18 @@
 import roll from './dice-tower.js';
 
-// TODO: Print sum to the page
-// TODO: Add form for adding a text field for `arg`
+// Valid inputs
 console.log(roll(4));
+console.log(roll('6'));
 console.log(roll([4,6,10]));
+console.log(roll(["4","6","10"]));
 console.log(roll('d4'));
 console.log(roll('2d6'));
 
-// Invalid
+// Invalid imputs
 console.log(roll(5));
 console.log(roll('d7'));
-console.log(roll('5d9'));
+console.log(roll('5D9'));
+console.log(roll('whatever'));
 
 const form = document.querySelector('form');
 
