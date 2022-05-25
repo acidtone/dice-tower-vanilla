@@ -31,7 +31,7 @@ const drop = (hand) => {
     return randomDieFace(hand);
   }
 
-  // string in D&D dice notation
+  // string in rpg dice notation
   if (typeof hand === 'string') {
     const notationMatch = hand.match(/^(\d*)d(\d+)$/);
     // no match (null)
@@ -79,7 +79,7 @@ const drop = (hand) => {
       return prevValue + currValue;
     })
 
-    // TODO: Add support for an array of integers or rpg strings!
+    // TODO: Add support for an array of rpg strings!
 
   }
 
