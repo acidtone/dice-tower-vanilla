@@ -1,5 +1,12 @@
 // sample isohedrals
-const allowedFaces = [2,4,6,8,10,12,16,20,100];
+
+// Utility functions
+// Test if the number of faces match a valid physical die
+const isIsohedral = (faces) => {
+  const allowedFaces = [2,4,6,8,10,12,16,20,100];
+
+  return allowedFaces.includes(parseInt(faces))
+}
 
 // TODO: Add support for verbose results and `return` an object instead of an integer.
 
@@ -11,7 +18,7 @@ const drop = (hand) => {
   if (Number.isInteger(hand)) {
     // bad isoheral (ex. 5-sided die)
     // TODO: Move duplicate code to `isIsohedral()` function.
-    if (!allowedFaces.includes(hand)) return null;
+    if (!isIsohedral(hand)) return null;
 
     // good isohedral
     return (Math.floor(Math.random() * hand)) + 1;
@@ -23,7 +30,7 @@ const drop = (hand) => {
     // no match (null)
     if (typeof notationMatch === "object" && !notationMatch) return null;
     // not an accepted isohedral die
-    if (!allowedFaces.includes(parseInt(notationMatch[2]))) return null;
+    if (!isIsohedral(notationMatch[2])) return null;
 
     // 'd6' -> roll one die
     // TODO: Move duplicate code to a `randDieFace(faces)` when `faces` is an integer.
@@ -53,7 +60,7 @@ const drop = (hand) => {
     // roll die
     const resultDetails = hand.map((die) => {
       // bad isoheral (ex. 5-sided die)
-      if (!allowedFaces.includes(die)) return null;
+      if (!isIsohedral(die)) return null;
 
       // good isohedral
       return (Math.floor(Math.random() * die)) + 1      
