@@ -1,10 +1,12 @@
 # Vanilla Dice Tower
-## Relevant entries journal 
+## Relevant journal entries 
 - [May 24, 2022](https://github.com/acidtone/code-journal#may-24-2022)
+  - Added support for numeric dice
 - [May 23, 2022](https://github.com/acidtone/code-journal#may-23-2022)
+  - project creation
 
 ## Usage
-Note: work-in-progress; only logs to the console
+Note: work-in-progress; only logs to the console right now.
 
 On [Line 3 of `/js/app.js`](https://github.com/acidtone/dice-tower-vanilla/blob/2cc8b7d9cef1659410c3f661195f0ccf0fdb030e/js/app.js#L3):
 - Pass an isohedral integer `x` to `drop()` an `x`-sided die.
