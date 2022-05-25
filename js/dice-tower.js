@@ -8,7 +8,13 @@ const isIsohedral = (faces) => {
   return allowedFaces.includes(parseInt(faces))
 }
 
-// 
+// Roll die
+const randomDieFace = (faces) => {
+  faces = parseInt(faces);
+  // If `faces` is integer, return random number R in range {1-faces}
+  if (!Number.isInteger(faces)) return null;
+  return Math.ceil(Math.random() * faces);
+}
 
 // TODO: Add support for verbose results and `return` an object instead of an integer.
 
@@ -22,7 +28,7 @@ const drop = (hand) => {
     if (!isIsohedral(hand)) return null;
 
     // good isohedral
-    return (Math.floor(Math.random() * hand)) + 1;
+    return randomDieFace(hand);
   }
 
   // string in D&D dice notation
@@ -34,14 +40,14 @@ const drop = (hand) => {
     if (!isIsohedral(notationMatch[2])) return null;
 
     // 'd6' -> roll one die
-    // TODO: Move duplicate code to a `randDieFace(faces)` when `faces` is an integer.
-    if (!notationMatch[1]) return Math.floor(Math.random() * notationMatch[2]) + 1;
+    if (!notationMatch[1]) return randomDieFace(notationMatch[2]);
     
     // roll multiple dice of the same type
     let resultDetails = [];
     for (let i = 0; i < notationMatch[1] ;i++) {
-      resultDetails[resultDetails.length] = Math.floor(Math.random() * notationMatch[2]) + 1
+      resultDetails[resultDetails.length] = randomDieFace(notationMatch[2])
     }
+    console.log(notationMatch);
     console.log(resultDetails);
     return resultDetails.reduce((prevValue, currValue) => {
       return prevValue + currValue;
@@ -64,7 +70,7 @@ const drop = (hand) => {
       if (!isIsohedral(die)) return null;
 
       // good isohedral
-      return (Math.floor(Math.random() * die)) + 1      
+      return randomDieFace(die);      
     })
     console.log(resultDetails);
 
