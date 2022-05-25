@@ -21,7 +21,8 @@ const randomDieFace = (faces) => {
 const drop = (hand) => {
   // This function only supports args that are integers, strings and arrays
   if (!Number.isInteger(hand) && !Array.isArray(hand) && typeof hand !== 'string') return null;
-
+  // clean numeric strings
+  if (typeof hand === 'string' && Number.isInteger(parseInt(hand))) hand = parseInt(hand);
   // integer -> simple die
   if (Number.isInteger(hand)) {
     // bad isoheral (ex. 5-sided die)
@@ -61,11 +62,13 @@ const drop = (hand) => {
 
     // array of integers -> hand of simple dice
     hand.forEach((die) => {
-      if (!Number.isInteger(die)) return null;
+      if (!Number.isInteger(parseInt(die))) return null;
     })
 
     // roll die
     const resultDetails = hand.map((die) => {
+      // sanitize
+      die = parseInt(die);
       // bad isoheral (ex. 5-sided die)
       if (!isIsohedral(die)) return null;
 

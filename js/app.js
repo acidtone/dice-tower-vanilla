@@ -12,4 +12,17 @@ console.log(roll(5));
 console.log(roll('d7'));
 console.log(roll('5d9'));
 
+const form = document.querySelector('form');
+
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const splitInput = form.hand.value.split(/[, ]+/);
+
+  if (splitInput.length > 1) {
+    form.output.value = roll(splitInput);
+  } else {
+    form.output.value = roll(form.hand.value);
+  }
+})
 
