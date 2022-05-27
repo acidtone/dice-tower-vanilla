@@ -1,8 +1,8 @@
-// sample isohedrals
 
 // Utility functions
 // Test if the number of faces match a valid physical die
 const isIsohedral = (faces) => {
+  // sample isohedrals
   const allowedFaces = [2,4,6,8,10,12,16,20,100];
 
   return allowedFaces.includes(parseInt(faces))
@@ -16,13 +16,45 @@ const randomDieFace = (faces) => {
   return Math.ceil(Math.random() * faces);
 }
 
+const matchString = (string) => {
+  // Pattern match all the things
+
+  const integerMatch = string.match(/^\d+$/);
+  console.log('Integer match ->', integerMatch);
+  if (integerMatch && isIsohedral(integerMatch[0])) return randomDieFace(integerMatch[0]);
+
+  const notationMatch = string.match(/^(\d*)d(\d+)$/);
+  console.log('Match result ->', notationMatch)
+  // no match (null)
+  if (typeof notationMatch === "object" && !notationMatch) return null;
+  // not an accepted isohedral die
+  if (!isIsohedral(notationMatch[2])) return null;
+
+  // 'd6' -> roll one die
+  if (!notationMatch[1]) return randomDieFace(notationMatch[2]);
+  
+  // roll multiple dice of the same type
+  let resultDetails = [];
+  for (let i = 0; i < notationMatch[1] ;i++) {
+    resultDetails[resultDetails.length] = randomDieFace(notationMatch[2])
+  }
+  console.log(`Roll results`, resultDetails);
+  return resultDetails.reduce((prevValue, currValue) => {
+    return prevValue + currValue;
+  })
+}
+
 // TODO: Add support for verbose results and `return` an object instead of an integer.
 
 const drop = (hand) => {
   // This function only supports args that are integers, strings and arrays
   if (!Number.isInteger(hand) && !Array.isArray(hand) && typeof hand !== 'string') return null;
-  // clean numeric strings
-  if (typeof hand === 'string' && Number.isInteger(parseInt(hand))) hand = parseInt(hand);
+
+  // string in rpg dice notation
+  if (typeof hand === 'string') {
+    return matchString(hand);
+  }
+
   // integer -> simple die
   if (Number.isInteger(hand)) {
     // bad isoheral (ex. 5-sided die)
@@ -32,40 +64,13 @@ const drop = (hand) => {
     return randomDieFace(hand);
   }
 
-  // string in rpg dice notation
-  if (typeof hand === 'string') {
-    const notationMatch = hand.match(/^(\d*)d(\d+)$/);
-    // no match (null)
-    if (typeof notationMatch === "object" && !notationMatch) return null;
-    // not an accepted isohedral die
-    if (!isIsohedral(notationMatch[2])) return null;
-
-    // 'd6' -> roll one die
-    if (!notationMatch[1]) return randomDieFace(notationMatch[2]);
-    
-    // roll multiple dice of the same type
-    let resultDetails = [];
-    for (let i = 0; i < notationMatch[1] ;i++) {
-      resultDetails[resultDetails.length] = randomDieFace(notationMatch[2])
-    }
-    console.log(notationMatch);
-    console.log(resultDetails);
-    return resultDetails.reduce((prevValue, currValue) => {
-      return prevValue + currValue;
-    })
-  }
-
   // array -> everything else
   if (Array.isArray(hand)) {
     // empty
     if (!hand.length) return null;
 
     // array of integers -> hand of simple dice
-    hand.forEach((die) => {
-      if (!Number.isInteger(parseInt(die))) return null;
-    })
-
-    // roll die
+    // array of [int|string] -> mixed hand
     const resultDetails = hand.map((die) => {
       // sanitize
       die = parseInt(die);
