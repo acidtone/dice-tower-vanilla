@@ -50,7 +50,7 @@ const drop = (hand) => {
   // This function only supports args that are integers, strings and arrays
   if (!Number.isInteger(hand) && !Array.isArray(hand) && typeof hand !== 'string') return null;
 
-  // string in rpg dice notation
+  // rpg dice notation or integer as string
   if (typeof hand === 'string') {
     return matchString(hand);
   }
@@ -72,13 +72,19 @@ const drop = (hand) => {
     // array of integers -> hand of simple dice
     // array of [int|string] -> mixed hand
     const resultDetails = hand.map((die) => {
-      // sanitize
-      die = parseInt(die);
-      // bad isoheral (ex. 5-sided die)
-      if (!isIsohedral(die)) return null;
+      // rpg dice notation or integer as string
+      if (typeof die === 'string') {
+        return matchString(die);
+      }
 
-      // good isohedral
-      return randomDieFace(die);      
+      // integer -> simple die
+      if (Number.isInteger(die)) {
+        // bad isoheral (ex. 5-sided die)
+        if (!isIsohedral(die)) return null;
+
+        // good isohedral
+        return randomDieFace(die);
+      }
     })
     console.log(resultDetails);
 
